@@ -1,0 +1,68 @@
+Sub multiple_year_stock_data():
+        Dim ws As Worksheet
+        Dim WorkSheetName As String
+        Dim ticker As String
+        Dim year_open As Double
+        Dim year_close As Double
+        Dim volume As Double
+        Dim yearly_change As Double
+        Dim percent_change As Double
+        Dim summary_table_row As Integer
+        
+    'Loop through all sheets
+    'For Each ws In ActiveWorkbook.Worksheets
+        ' Created a Variable to Hold File Name, Last Row, Last Column, and Year
+     
+        'Determine the last row
+        LastRow = Cells(Rows.Count, "A").End(xlUp).Row
+        
+        'Set Headers
+        Range("I1").Value = "Ticker"
+        Range("J1").Value = "Yearly Change"
+        Range("K1").Value = "Percent Change"
+        Range("L1").Value = "Total Stock Volume"
+        
+        summary_table_row = 2
+        volume = 0
+        yearly_change = yearly_close - yearly_open
+        
+        For i = 2 To LastRow
+            If Cells(i + 1, 1).Value <> Cells(i, 1).Value Then
+                ticker = Cells(i, 1).Value
+                Cells(summary_table_row, 9).Value = Cells(i, 1).Value
+                
+                volume = volume + Cells(i, 7).Value
+                Cells(summary_table_row, 12).Value = volume
+                
+                yearly_open = Cells(i, 3).Value
+                yearly_close = Cells(i, 6).Value
+                yearly_change = Cells(i, 6).Value - Cells(i, 3).Value
+                Cells(summary_table_row, 10).Value = yearly_change
+                
+                ' percent_change = (Cells(i, 3).Value - Cells(i, 6).Value) / Cells(i, 3).Value
+                ' Cells(summary_table_row, 11).Value = percent_change
+                
+                summary_table_row = summary_table_row + 1
+                
+            volume = 0
+            yearly_change = 0
+            percent_change = 0
+            
+            Else
+                volume = volume + Cells(i, 7).Value
+            
+            End If
+            
+        Next i
+        
+        ' Format column colors
+            ' ws.Cells(summary_table_row, 10).Value = yearly_change
+            ' If ws.Cells(summary_table_row, 10).Value > 0
+                ' Then Cells(summary_table_row, 10).Interior.ColorIndex = 4
+            ' Else
+                ' Cells(summary_table_row, 10).Interior.ColorIndex = 3
+            ' End If
+            
+
+
+End Sub
